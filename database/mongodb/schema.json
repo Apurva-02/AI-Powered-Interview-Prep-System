@@ -1,0 +1,109 @@
+{
+  "collections": {
+    "users": {
+      "validator": {
+        "$jsonSchema": {
+          "bsonType": "object",
+          "required": ["email", "name", "password_hash"],
+          "properties": {
+            "_id": { "bsonType": "objectId" },
+            "name": { "bsonType": "string", "description": "User's full name" },
+            "email": { "bsonType": "string", "description": "User's email address" },
+            "password_hash": { "bsonType": "string", "description": "Hashed password" },
+            "profile_picture_url": { "bsonType": "string" },
+            "bio": { "bsonType": "string" },
+            "phone": { "bsonType": "string" },
+            "location": { "bsonType": "string" },
+            "created_at": { "bsonType": "date" },
+            "updated_at": { "bsonType": "date" }
+          }
+        }
+      },
+      "indexes": [{ "key": { "email": 1 }, "unique": true }, { "key": { "created_at": -1 } }]
+    },
+    "contact_submissions": {
+      "validator": {
+        "$jsonSchema": {
+          "bsonType": "object",
+          "required": ["name", "email", "subject", "message"],
+          "properties": {
+            "_id": { "bsonType": "objectId" },
+            "name": { "bsonType": "string" },
+            "email": { "bsonType": "string" },
+            "phone": { "bsonType": "string" },
+            "subject": { "bsonType": "string" },
+            "message": { "bsonType": "string" },
+            "status": { "bsonType": "string", "enum": ["new", "read", "responded"] },
+            "created_at": { "bsonType": "date" },
+            "updated_at": { "bsonType": "date" }
+          }
+        }
+      },
+      "indexes": [{ "key": { "created_at": -1 } }, { "key": { "status": 1 } }]
+    },
+    "pre_interview_setup": {
+      "validator": {
+        "$jsonSchema": {
+          "bsonType": "object",
+          "required": ["user_id", "difficulty_level", "interview_type"],
+          "properties": {
+            "_id": { "bsonType": "objectId" },
+            "user_id": { "bsonType": "objectId" },
+            "difficulty_level": { "bsonType": "string", "enum": ["easy", "medium", "hard"] },
+            "interview_type": { "bsonType": "string", "enum": ["technical", "behavioral"] },
+            "resume_url": { "bsonType": "string" },
+            "resume_filename": { "bsonType": "string" },
+            "resume_content": { "bsonType": "string" },
+            "created_at": { "bsonType": "date" },
+            "updated_at": { "bsonType": "date" }
+          }
+        }
+      },
+      "indexes": [{ "key": { "user_id": 1 } }, { "key": { "created_at": -1 } }]
+    },
+    "interview_sessions": {
+      "validator": {
+        "$jsonSchema": {
+          "bsonType": "object",
+          "required": ["user_id"],
+          "properties": {
+            "_id": { "bsonType": "objectId" },
+            "user_id": { "bsonType": "objectId" },
+            "pre_interview_setup_id": { "bsonType": "objectId" },
+            "title": { "bsonType": "string" },
+            "duration_seconds": { "bsonType": "int" },
+            "score": { "bsonType": "double" },
+            "transcript": { "bsonType": "string" },
+            "emotion_analysis": { "bsonType": "object" },
+            "feedback": { "bsonType": "string" },
+            "created_at": { "bsonType": "date" },
+            "updated_at": { "bsonType": "date" }
+          }
+        }
+      },
+      "indexes": [{ "key": { "user_id": 1 } }, { "key": { "created_at": -1 } }]
+    },
+    "performance_reports": {
+      "validator": {
+        "$jsonSchema": {
+          "bsonType": "object",
+          "required": ["session_id"],
+          "properties": {
+            "_id": { "bsonType": "objectId" },
+            "session_id": { "bsonType": "objectId" },
+            "communication_score": { "bsonType": "double" },
+            "technical_score": { "bsonType": "double" },
+            "confidence_score": { "bsonType": "double" },
+            "overall_score": { "bsonType": "double" },
+            "strengths": { "bsonType": "string" },
+            "improvements": { "bsonType": "string" },
+            "recommendations": { "bsonType": "string" },
+            "created_at": { "bsonType": "date" },
+            "updated_at": { "bsonType": "date" }
+          }
+        }
+      },
+      "indexes": [{ "key": { "session_id": 1 } }]
+    }
+  }
+}
